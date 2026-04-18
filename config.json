@@ -1,0 +1,7 @@
+{
+  "admin_role_ids": [],
+  "mod_role_ids": [],
+  "logging_channel_id": 0,
+  "automod_enabled": false,
+  "mute_duration_default": 10
+}
