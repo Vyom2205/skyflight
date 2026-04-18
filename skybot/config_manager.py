@@ -43,9 +43,9 @@ class ConfigStore:
                     ) from exc
             merged[key] = normalized_values
 
-        merged["logging_channel_id"] = int(merged.get("logging_channel_id", 0) or 0)
+        merged["logging_channel_id"] = int(merged.get("logging_channel_id") or 0)
         merged["automod_enabled"] = bool(merged.get("automod_enabled", False))
-        merged["mute_duration_default"] = int(merged.get("mute_duration_default", 10) or 10)
+        merged["mute_duration_default"] = int(merged.get("mute_duration_default") or 10)
         return merged
 
     def _load(self) -> dict[str, Any]:

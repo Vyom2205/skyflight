@@ -39,6 +39,9 @@ class ConfigStoreTests(unittest.TestCase):
                 store.add_to_list("logging_channel_id", 1)
 
             with self.assertRaises(KeyError):
+                store.add_to_list("completely_unknown_key", 1)
+
+            with self.assertRaises(KeyError):
                 store.get("invalid_key")
 
 

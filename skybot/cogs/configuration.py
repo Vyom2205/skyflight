@@ -27,7 +27,7 @@ class ConfigurationCog(commands.Cog):
         await ctx.reply(
             "You do not have permission to use configure commands. "
             "Only users with an admin role can run these commands. "
-            "Ask an existing admin to add your role or update config.json."
+            "Ask an existing admin to run `!configure admin_role add <role_id>` for your role."
         )
         return False
 
