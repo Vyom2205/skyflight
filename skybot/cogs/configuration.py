@@ -13,10 +13,12 @@ class ConfigurationCog(commands.Cog):
         self.config_store = config_store
 
     def _is_admin(self, ctx: commands.Context[Any]) -> bool:
+        if ctx.guild is None:
+            return False
         admin_role_ids = set(self.config_store.get("admin_role_ids"))
         if not admin_role_ids:
             return False
-        return any(role.id in admin_role_ids for role in getattr(ctx.author, "roles", []))
+        return any(role.id in admin_role_ids for role in ctx.author.roles)
 
     async def cog_check(self, ctx: commands.Context[Any]) -> bool:
         if self._is_admin(ctx):
@@ -29,7 +31,12 @@ class ConfigurationCog(commands.Cog):
 
     @commands.group(name="configure", invoke_without_command=True)
     async def configure(self, ctx: commands.Context[Any]) -> None:
-        await ctx.send("Use `!configure show`, `!configure admin_role add <role_id>`, or `!configure set <key> <value>`")
+        await ctx.send(
+            "Configuration commands:\n"
+            "- `!configure show` (display current config)\n"
+            "- `!configure admin_role add <role_id>` (add an admin role)\n"
+            "- `!configure set <key> <value>` (update a config value)"
+        )
 
     @configure.command(name="show")
     async def configure_show(self, ctx: commands.Context[Any]) -> None:
@@ -45,7 +52,7 @@ class ConfigurationCog(commands.Cog):
 
     @configure.group(name="admin_role", invoke_without_command=True)
     async def configure_admin_role(self, ctx: commands.Context[Any]) -> None:
-        await ctx.send("Use `!configure admin_role add <role_id>`")
+        await ctx.send("Admin role commands: `!configure admin_role add <role_id>`")
 
     @configure_admin_role.command(name="add")
     async def configure_admin_role_add(self, ctx: commands.Context[Any], role_id: int) -> None:

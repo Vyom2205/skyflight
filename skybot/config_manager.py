@@ -35,7 +35,7 @@ class ConfigStore:
             try:
                 merged[key] = [int(v) for v in value]
             except (TypeError, ValueError) as exc:
-                raise ValueError(f"{key} must contain only integer role IDs: {value}") from exc
+                raise ValueError(f"{key} must contain only integer role IDs") from exc
 
         merged["logging_channel_id"] = int(merged.get("logging_channel_id", 0) or 0)
         merged["automod_enabled"] = bool(merged.get("automod_enabled", False))
