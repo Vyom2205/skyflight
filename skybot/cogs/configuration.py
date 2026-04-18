@@ -90,4 +90,6 @@ class ConfigurationCog(commands.Cog):
 
 
 async def setup(bot: commands.Bot) -> None:
+    if not hasattr(bot, "config_store"):
+        raise RuntimeError("ConfigurationCog requires bot.config_store")
     await bot.add_cog(ConfigurationCog(bot, bot.config_store))

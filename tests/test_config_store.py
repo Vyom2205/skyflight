@@ -38,6 +38,9 @@ class ConfigStoreTests(unittest.TestCase):
             with self.assertRaises(KeyError):
                 store.add_to_list("logging_channel_id", 1)
 
+            with self.assertRaises(KeyError):
+                store.get("invalid_key")
+
 
 if __name__ == "__main__":
     unittest.main()
