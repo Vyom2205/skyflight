@@ -28,6 +28,16 @@ class ConfigStoreTests(unittest.TestCase):
             on_disk = json.loads(config_path.read_text(encoding="utf-8"))
             self.assertEqual(on_disk, config)
 
+    def test_invalid_keys_raise_key_error(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            store = ConfigStore(Path(tmpdir) / "config.json")
+
+            with self.assertRaises(KeyError):
+                store.update("unknown_key", 1)
+
+            with self.assertRaises(KeyError):
+                store.add_to_list("logging_channel_id", 1)
+
 
 if __name__ == "__main__":
     unittest.main()

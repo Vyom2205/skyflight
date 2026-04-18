@@ -21,7 +21,10 @@ class ConfigurationCog(commands.Cog):
     async def cog_check(self, ctx: commands.Context[Any]) -> bool:
         if self._is_admin(ctx):
             return True
-        await ctx.reply("You do not have permission to use configure commands.")
+        await ctx.reply(
+            "You do not have permission to use configure commands. "
+            "Only users with an admin role can run these commands."
+        )
         return False
 
     @commands.group(name="configure", invoke_without_command=True)
@@ -62,7 +65,12 @@ class ConfigurationCog(commands.Cog):
     def _parse_value(self, key: str, value: str) -> Any:
         if key in {"admin_role_ids", "mod_role_ids"}:
             raw_parts = [part.strip() for part in value.split(",") if part.strip()]
-            return [int(part) for part in raw_parts]
+            try:
+                return [int(part) for part in raw_parts]
+            except ValueError as exc:
+                raise commands.BadArgument(
+                    f"{key} must be a comma-separated list of integer role IDs"
+                ) from exc
 
         if key in {"logging_channel_id", "mute_duration_default"}:
             return int(value)
@@ -73,7 +81,10 @@ class ConfigurationCog(commands.Cog):
                 return True
             if lowered in {"false", "0", "no", "off", "disabled"}:
                 return False
-            raise commands.BadArgument("automod_enabled must be true/false")
+            raise commands.BadArgument(
+                "automod_enabled must be true/false "
+                "(accepted values: true, false, 1, 0, yes, no, on, off, enabled, disabled)"
+            )
 
         raise commands.BadArgument(f"Unsupported key: {key}")
 

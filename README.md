@@ -20,7 +20,7 @@ skyBot is a Discord bot built with `discord.py` using a modular Cog architecture
 
 ## Persistent configuration
 
-The bot persists runtime configuration in `/home/runner/work/skyflight/skyflight/config.json`.
+The bot persists runtime configuration in `config.json` at the project root.
 
 Stored keys:
 - `admin_role_ids` (list of role IDs)
@@ -32,6 +32,8 @@ Stored keys:
 ## Configuration commands
 
 Only members that have at least one role ID listed in `admin_role_ids` can run `!configure` commands.
+
+If `admin_role_ids` is empty, add the first admin role ID manually in `config.json`, then restart skyBot once.
 
 - `!configure show`
 - `!configure admin_role add <role_id>`
