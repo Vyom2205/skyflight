@@ -31,6 +31,7 @@ class ConfigurationCog(commands.Cog):
         )
         return False
 
+    @commands.guild_only()
     @commands.group(name="configure", invoke_without_command=True)
     async def configure(self, ctx: commands.Context[Any]) -> None:
         await ctx.send(
@@ -74,12 +75,16 @@ class ConfigurationCog(commands.Cog):
     def _parse_value(self, key: str, value: str) -> Any:
         if key in {"admin_role_ids", "mod_role_ids"}:
             raw_parts = [part.strip() for part in value.split(",") if part.strip()]
-            try:
-                return [int(part) for part in raw_parts]
-            except ValueError as exc:
-                raise commands.BadArgument(
-                    f"{key} must be a comma-separated list of integer role IDs"
-                ) from exc
+            parsed: list[int] = []
+            for part in raw_parts:
+                try:
+                    parsed.append(int(part))
+                except ValueError as exc:
+                    raise commands.BadArgument(
+                        f"{key} must be a comma-separated list of integer role IDs "
+                        f"(invalid value: {part})"
+                    ) from exc
+            return parsed
 
         if key in {"logging_channel_id", "mute_duration_default"}:
             return int(value)

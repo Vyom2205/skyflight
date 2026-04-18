@@ -38,7 +38,8 @@ class ConfigStore:
                     normalized_values.append(int(item))
                 except (TypeError, ValueError) as exc:
                     raise ValueError(
-                        f"{key} must contain only integer role IDs (invalid value: {item!r})"
+                        f"{key} in config.json must contain only integer role IDs "
+                        f"(invalid value: {item!r})"
                     ) from exc
             merged[key] = normalized_values
 
