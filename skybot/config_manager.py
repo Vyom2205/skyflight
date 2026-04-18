@@ -33,9 +33,12 @@ class ConfigStore:
             if not isinstance(value, list):
                 value = []
             try:
-                merged[key] = [int(v) for v in value]
+                normalized_values = []
+                for item in value:
+                    normalized_values.append(int(item))
+                merged[key] = normalized_values
             except (TypeError, ValueError) as exc:
-                raise ValueError(f"{key} must contain only integer role IDs") from exc
+                raise ValueError(f"{key} must contain only integer role IDs (invalid value: {item!r})") from exc
 
         merged["logging_channel_id"] = int(merged.get("logging_channel_id", 0) or 0)
         merged["automod_enabled"] = bool(merged.get("automod_enabled", False))

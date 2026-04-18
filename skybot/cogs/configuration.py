@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from typing import Any
 
+import discord
 from discord.ext import commands
 
 from skybot.config_manager import ConfigStore
@@ -13,7 +14,7 @@ class ConfigurationCog(commands.Cog):
         self.config_store = config_store
 
     def _is_admin(self, ctx: commands.Context[Any]) -> bool:
-        if ctx.guild is None:
+        if ctx.guild is None or not isinstance(ctx.author, discord.Member):
             return False
         admin_role_ids = set(self.config_store.get("admin_role_ids"))
         if not admin_role_ids:

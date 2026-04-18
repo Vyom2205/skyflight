@@ -33,7 +33,7 @@ Stored keys:
 
 Only members that have at least one role ID listed in `admin_role_ids` can run `!configure` commands.
 
-If `admin_role_ids` is empty, add the first admin role ID manually in `config.json`, then restart skyBot once.
+If `admin_role_ids` is empty, add the first admin role ID manually in `config.json`, then restart skyBot.
 
 - `!configure show`
 - `!configure admin_role add <role_id>`
